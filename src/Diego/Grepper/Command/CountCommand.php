@@ -1,8 +1,8 @@
 <?php
 namespace Diego\Grepper\Command;
 
+use Diego\Grepper\File;
 use Diego\Grepper\FileNotFound;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -10,12 +10,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class CountCommand
  */
-class CountCommand extends Command
+class CountCommand extends AbstractInputFileBasedCommand
 {
     protected function configure()
     {
-        $this->setName('grep:create')
-            ->setDescription('Grep lines from one file counts the matches')
+        $this->setName('count')
+            ->setDescription('Grep lines from a file and counts the matches')
             ->addArgument('input', InputArgument::REQUIRED)
             ->addArgument('expression', InputArgument::REQUIRED);
     }
@@ -24,25 +24,20 @@ class CountCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
-     * @throws FileNotFound
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!file_exists($input->getArgument('input'))) {
-            throw new FileNotFound('File \'' . $input->getArgument('input') . '\' not found.');
-        }
+        $this->assureInputFileReadable($input);
 
-        $inputHandler = new \SplFileObject($input->getArgument('input'));
-
+        $expression = $input->getArgument('expression');
         $count = 0;
-
-        while (!$inputHandler->eof()) {
-            $buffer = $inputHandler->fgets();
-            $match = preg_match($input->getArgument('expression'), $buffer);
+        $source = new File($input->getArgument('input'));
+        $source->map(function ($buffer) use (&$count, &$expression) {
+            $match = preg_match($expression, $buffer);
             if ($match) {
                 $count++;
             }
-        }
+        });
 
         $output->write('Found ' . $count . ' matches.' . PHP_EOL);
 

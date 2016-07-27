@@ -1,6 +1,7 @@
 <?php
 namespace Diego\Grepper;
 
+use Diego\Grepper\Command\CountCommand;
 use Diego\Grepper\Command\CreateCommand;
 use Symfony\Component\Console\Application;
 
@@ -23,6 +24,6 @@ class App extends Application
 
         parent::__construct($name, $version);
 
-        $this->addCommands([new CreateCommand()]);
+        $this->addCommands([new CountCommand, new CreateCommand]);
     }
 }
