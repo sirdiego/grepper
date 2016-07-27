@@ -1,5 +1,5 @@
 {
-    "name": "diego/csv-grepper",
+    "name": "diego/grepper",
     "description": "A simple tool to grep specific lines of a textfile.",
     "require": {
         "symfony/console": "^3.1"
@@ -11,5 +11,11 @@
             "email": "diego@sirdiego.de"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "bin": ["bin/grepper"],
+    "autoload": {
+        "psr-4": {
+            "Diego\\Grepper\\": "src/Diego/Grepper/"
+        }
+    }
 }
