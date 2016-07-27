@@ -1,0 +1,20 @@
+language: php
+php:
+- '7.0'
+before_script:
+  - mkdir .Build
+  - wget https://github.com/clue/phar-composer/releases/download/v1.0.0/phar-composer.phar -O .Build/phar-composer.phar
+  - chmod +x .Build/phar-composer.phar
+  - composer install
+script:
+  - .Build/phar-composer.phar build . .Build/grepper.phar
+  - mv .Build/grepper.phar .Build/grepper
+deploy:
+  provider: releases
+  api_key:
+    secure: MuhlTLlnads4m2OLaj1QUCbIoe0CgUHvovOh/kUiIfZbAPEFUDiZTs4iNUAJJLqB7Lpm8vwgx0VUw4QHa3nQJ4iXuIICYriKw1kvVfWo9Shy4JSY+5mzO6vZtS8CUs0Vd/vaRhjrcRuS5t8R50VDCO/OWT2UP2KM08LbklmMl6IBR6LZrEwuohZ/CY3s0ve/DcfwJDk0P1GkZRBMkenp6C2+sF5qQcdWMvF+CuTxZB5OQccIrdzrqVjKHyQ8a4cROOyrHTAaXejDkJkjKQfqLaXkxoWaAJae4Yp/zTuhknk6HxzPBcCg02JozHWyYoGHmUtnJfHr3as7qXRyHlATlrEttsnlAKL62p5AjAYFmRGtpvma90ZrTjmWYjho7DzKbSRGh2F2FVwIg+A92sCMNA4xAAgD1fX3yTf2reOemfd9lkp1OgvHlqXu7v2B9wB4dN4PUaBy3l6Kpom8u6Cu0cK41KhAq20d8EVpFkXP4audEuiBR3QXSZrjK5M6evT+ORrfES4itzSRDsiBl4Rtv/YNBzCtw+CZDqb57B4sdir09pPqVw6NnMFNhX6F2JcNezSQYD5LZ82ctljrJtIRlNy3TYCbh5HjQhGxixYsN5DxxxuZ1IjibRrE6Su8M0TwouKXyZRi9ulOo6oLdm7ly7I6JZDc0wPGqZGQOH51Rbk=
+  file: ".Build/grepper"
+  skip_cleanup: true
+  on:
+    repo: sirdiego/grepper
+    tags: true
