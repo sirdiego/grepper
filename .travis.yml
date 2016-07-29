@@ -6,7 +6,9 @@ install:
   - composer install
 
 script:
-  - vendor/bin/phpunit tests
+  - phpunit --coverage-clover=coverage.clover
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
 before_deploy:
   - mkdir .Build
