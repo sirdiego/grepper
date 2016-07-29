@@ -28,16 +28,12 @@ class CountCommand extends AbstractInputFileBasedCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->assureInputFileReadable($input);
+        $validLines = new \RegexIterator(new \SplFileObject($input->getArgument('input')), $input->getArgument('expression'));
 
-        $expression = $input->getArgument('expression');
         $count = 0;
-        $source = new File($input->getArgument('input'));
-        $source->map(function ($buffer) use (&$count, &$expression) {
-            $match = preg_match($expression, $buffer);
-            if ($match) {
-                $count++;
-            }
-        });
+        foreach ($validLines as $line) {
+            $count++;
+        }
 
         $output->write('Found ' . $count . ' matches.' . PHP_EOL);
 

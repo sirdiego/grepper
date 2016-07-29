@@ -32,34 +32,11 @@ class CreateCommand extends AbstractInputFileBasedCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->assureInputFileReadable($input);
+        $validLines = new \RegexIterator(new \SplFileObject($input->getArgument('input')), $input->getArgument('expression'));
 
-        $expression = $input->getArgument('expression');
-        $source = new File($input->getArgument('input'));
         $target = new \SplFileObject($input->getArgument('output'), 'w');
-
-        $progress = null;
-        if ($input->getOption('progress')) {
-            $source->seek(PHP_INT_MAX);
-            $progress = new ProgressBar($output, $source->key());
-            $source->rewind();
-        }
-        $iteration = 0;
-
-        $source->map(function ($buffer) use ($target, &$expression, $progress, &$iteration) {
-            if ($progress instanceof ProgressBar && $iteration % 100 == 0) {
-                $progress->advance(100);
-            }
-
-            $match = preg_match($expression, $buffer);
-            if ($match) {
-                $target->fwrite($buffer);
-            }
-
-            $iteration++;
-        });
-
-        if ($progress instanceof ProgressBar) {
-            $progress->finish();
+        foreach ($validLines as $line) {
+            $target->fwrite($line);
         }
 
         return 0;
