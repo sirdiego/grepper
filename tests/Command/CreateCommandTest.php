@@ -20,7 +20,7 @@ class CreateCommandTest extends BaseCommandTestCase
     /**
      * @test
      */
-    public function counts_lines_based_on_regex()
+    public function copies_lines_based_on_regex()
     {
         $name = 'create';
         $tester = $this->setUpCommandTesterFor($name, CreateCommand::class);
