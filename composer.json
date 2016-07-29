@@ -17,5 +17,14 @@
         "psr-4": {
             "Diego\\Grepper\\": "src/Diego/Grepper/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Diego\\Grepper\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.4",
+        "mikey179/vfsStream": "^1.6"
     }
 }
