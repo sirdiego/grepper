@@ -31,8 +31,10 @@ class CountCommand extends AbstractInputFileBasedCommand
         $validLines = new \RegexIterator(new \SplFileObject($input->getArgument('input')), $input->getArgument('expression'));
 
         $count = 0;
-        foreach ($validLines as $line) {
+        $validLines->rewind();
+        while($validLines->valid()) {
             $count++;
+            $validLines->next();
         }
 
         $output->write('Found ' . $count . ' matches.' . PHP_EOL);
