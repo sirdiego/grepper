@@ -20,8 +20,7 @@ class CreateCommand extends AbstractInputFileBasedCommand
             ->setDescription('Grep lines from one file and write them to another')
             ->addArgument('input', InputArgument::REQUIRED)
             ->addArgument('expression', InputArgument::REQUIRED)
-            ->addArgument('output', InputArgument::REQUIRED)
-            ->addOption('progress', 'p', InputOption::VALUE_NONE, 'You should only use the progress if every single expression takes some time');
+            ->addArgument('output', InputArgument::REQUIRED);
     }
 
     /**

@@ -32,7 +32,7 @@ class CountCommand extends AbstractInputFileBasedCommand
 
         $count = 0;
         $validLines->rewind();
-        while($validLines->valid()) {
+        while ($validLines->valid()) {
             $count++;
             $validLines->next();
         }
