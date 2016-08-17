@@ -6,5 +6,4 @@ namespace Diego\Grepper;
  */
 class FileNotReadable extends \Exception
 {
-
 }
